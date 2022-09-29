@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+# Create a Spotify Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created by Agustín García
+
+## Install
+
+First 
+### `npm install` 
 
 ## Available Scripts
 
