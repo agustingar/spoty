@@ -2,9 +2,10 @@
 
 This project was created by Agustín García
 
-## Install
+## Quickstart
 
-First 
+Install all dependencies 
+
 ### `npm install` 
 
 ## Available Scripts
