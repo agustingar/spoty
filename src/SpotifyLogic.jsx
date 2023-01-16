@@ -10,7 +10,6 @@ export const getTokenFromURL = () => {
         return initial;
     }, {})
 }
-
 const config ={
  authEndpoint : process.env.REACT_APP_AUTH_END_POINT,
  clientID : process.env.REACT_APP_CLIENT_ID,
