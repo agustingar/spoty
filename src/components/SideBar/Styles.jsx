@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 const SideBarContainer = styled.div`
 background-color:#000;
 height: 100vh;
