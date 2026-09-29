@@ -22,13 +22,26 @@ function App() {
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
 
+    const loadUserPlaylist = async () => {
+      const page = await spotify.getUserPlaylists({ limit: 20 });
+      const playlists = page?.items?.filter((item) => item?.id) ?? [];
+      for (const item of playlists) {
+        try {
+          return await spotify.getPlaylist(item.id);
+        } catch (err) {
+          if (err?.status !== 404 && err?.status !== 403) throw err;
+        }
+      }
+      return null;
+    };
+
     const boot = async (token) => {
       dispatch(SET_TOKEN(token));
       spotify.setAccessToken(token);
-      const user = await spotify.getMe();
-      dispatch(SET_USER(user));
-      const playlist = await spotify.getPlaylist("37i9dQZF1DWVJv1UsWItkB");
-      dispatch(SET_PLAYLIST(playlist));
+      const me = await spotify.getMe();
+      dispatch(SET_USER(me));
+      const playlist = await loadUserPlaylist();
+      if (playlist) dispatch(SET_PLAYLIST(playlist));
     };
 
     (async () => {
@@ -45,8 +58,7 @@ function App() {
         }
         if (token) await boot(token);
       } catch (err) {
-        console.error(err);
-        clearSession();
+        if (err?.status === 401) clearSession();
       }
     })();
   }, [dispatch])

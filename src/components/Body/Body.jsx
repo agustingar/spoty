@@ -9,16 +9,16 @@ import SongRow from './SongRow';
 
 const Body = () => {
   const playlist = useSelector(selectPlaylist);
-  console.log("playlist =>" , playlist);
+  const tracks = playlist?.tracks?.items?.filter((item) => item?.track?.album?.images?.[0]?.url) ?? [];
   return (
     <BodyContainer>
      <Header/>
      <Info>
-      <img src={playlist?.images[0]?.url} alt=""/>
+      {playlist?.images?.[0]?.url ? <img src={playlist.images[0].url} alt="" /> : null}
       <InfoText>
         <h4>Playlist</h4>
-        <h2>Weekly discovered</h2>
-        <p> {playlist?.name} </p>
+        <h2>{playlist?.name || "Sin playlist"}</h2>
+        <p>{playlist ? `${playlist.tracks?.total ?? tracks.length} canciones` : "Entra de nuevo con Spotify para cargar tus playlists."}</p>
       </InfoText>
      </Info>
      <Songs>
@@ -28,8 +28,8 @@ const Body = () => {
         <MoreHoriz fontSize='large'/>
         </Icons>
         {
-          playlist?.tracks?.items.map((item, index) => (
-            <SongRow track={item.track} key={index}/>
+          tracks.map((item, index) => (
+            <SongRow track={item.track} key={item.track.id || index}/>
           ))
         }
      </Songs>
